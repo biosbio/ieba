@@ -131,14 +131,12 @@
         }
         function localLogin() {
           var next = null;
-          if (email === 'moi7-@hotmail.com' && pass === 'TESTE123') {
-            next = { role: 'admin', name: 'Administrador Geral', email: email, pages: [] };
-          } else if (window.IEBAStore) {
+          if (window.IEBAStore) {
             var users = IEBAStore.all('utilizadores');
             for (var i = 0; i < users.length; i++) {
               var u = users[i];
               if (String(u.email || '').toLowerCase() === email && u.password === pass) {
-                next = { role: 'responsavel', name: u.name, email: u.email, pages: u.pages || [] };
+                next = { role: u.role || 'responsavel', name: u.name, email: u.email, pages: u.pages || [] };
                 break;
               }
             }

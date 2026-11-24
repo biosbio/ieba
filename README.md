@@ -57,12 +57,7 @@ node tools/test-site.js
 
 ### Administrador
 
-```
-Email:     moi7-@hotmail.com
-Palavra-passe: TESTE123
-```
-
-O papel de administrador vem do documento `users/{uid}` no Firestore (`role: "admin"`).
+Acesso em `admin/login.html` com a conta Firebase autorizada. O papel de administrador vem do documento `users/{uid}` no Firestore (`role: "admin"`). As credenciais são fornecidas pela administração da igreja e não devem ser publicadas neste repositório.
 
 ## Segurança
 
