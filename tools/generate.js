@@ -1336,7 +1336,7 @@ function aPrayerModal() {
 function aContentModal(kind, mode) {
   var editing = mode === 'edit';
   var id = 'modal-' + kind + (editing ? '-edit' : '');
-  var titles = { evento: 'evento', comunicado: 'comunicado', atividade: 'atividade' };
+  var titles = { evento: 'evento', comunicado: 'comunicado', atividade: 'atividade', midia: 'item de mídia' };
   var title = (editing ? 'Editar ' : 'Novo ') + titles[kind];
   var submit = editing ? 'Guardar alterações' : 'Publicar';
   var fields = {

@@ -18,13 +18,23 @@
     pedidos: 'prayerRequests'
   };
 
+  function localItems(key) { return window.IEBAStore ? IEBAStore.all(key) : []; }
+
   function loadItems(key) {
     var fb = window.IEBAFirebase;
     var collection = COLLECTIONS[key] || key;
-    if (fb && fb.enabled && fb.data && fb.auth && fb.auth.currentUser) {
-      return fb.data.list(collection).catch(function () { return window.IEBAStore ? IEBAStore.all(key) : []; });
+    if (window.IEBA_FIREBASE_CONFIG && !(fb && fb.enabled && fb.data)) {
+      return new Promise(function (resolve) {
+        var handled = false;
+        function go() { if (handled) { return; } handled = true; resolve(loadItems(key)); }
+        window.addEventListener('ieba:firebase-ready', go, { once: true });
+        window.setTimeout(go, 6000);
+      });
     }
-    return Promise.resolve(window.IEBAStore ? IEBAStore.all(key) : []);
+    if (fb && fb.enabled && fb.data) {
+      return fb.data.list(collection).catch(function () { return localItems(key); });
+    }
+    return Promise.resolve(localItems(key));
   }
 
   function titleOf(item, key) {
@@ -79,9 +89,10 @@
       loadItems(key).then(function (items) {
         var featured = items.filter(function (x) { return x.featured === true; });
         if (!featured.length) { return; }
+        track.querySelectorAll('[data-firebase-card]').forEach(function (n) { n.remove(); });
         var cards = featured.map(function (item) {
           var isEvent = key === 'eventos';
-          return '<a class="card" href="' + (isEvent ? 'eventos.html' : 'noticias.html') + '" style="color:inherit;text-decoration:none" data-slide>' +
+          return '<a class="card" data-firebase-card href="' + (isEvent ? 'eventos.html' : 'noticias.html') + '" style="color:inherit;text-decoration:none" data-slide>' +
             '<div class="thumb ' + (isEvent ? 'thumb-gold' : 'thumb-blue') + '"><span class="thumb-label">' + (isEvent ? 'Evento' : 'Comunicado') + '</span><span class="thumb-icon">✦</span></div>' +
             '<div class="card-body"><span class="badge badge-gold">Destaque</span>' +
             '<h3 class="card-title" style="margin-top:.75rem">' + esc(titleOf(item, key)) + '</h3>' +
@@ -154,7 +165,19 @@
     });
   }
 
-  renderPublic();
-  renderCarousel();
-  renderAdmin();
+  function renderAll() {
+    renderPublic();
+    renderCarousel();
+    renderAdmin();
+  }
+  renderAll();
+  function attachAuth() {
+    var fb = window.IEBAFirebase;
+    if (fb && fb.enabled && fb.auth && fb.auth.onAuthStateChanged && !fb._renderAttached) {
+      fb._renderAttached = true;
+      fb.auth.onAuthStateChanged(function () { window.setTimeout(renderAll, 250); });
+    }
+  }
+  attachAuth();
+  window.addEventListener('ieba:firebase-ready', function () { renderAll(); attachAuth(); });
 })();
