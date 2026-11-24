@@ -57,10 +57,14 @@ check('sem aviso de versao inicial', !/Aviso: versão inicial|provisóri/.test(i
 check('carrossel de eventos automatico', (index.match(/data-carousel-auto/g) || []).length >= 2);
 check('2 carrosséis (eventos + noticias)', (index.match(/data-carousel-auto/g) || []).length === 2);
 check('Firebase config incluido', index.includes('firebase/config.js'));
+var navHtml = index.slice(index.indexOf('id="main-nav"'), index.indexOf('</nav>'));
+check('header sem atividades/pedidos-oracao/doacoes/contactos', !/atividades\.html|pedidos-oracao\.html|doacoes\.html|contactos\.html/.test(navHtml));
 
 console.log('\n=== 5. Admin ===');
 const admin = walk(path.join(ROOT, 'admin'), '.html', []);
-check('15 paginas admin', admin.length === 15, String(admin.length));
+check('16 paginas admin', admin.length === 16, String(admin.length));
+check('pagina notificacoes existe', fs.existsSync(path.join(ROOT, 'admin', 'notificacoes.html')));
+check('formulario subscricao publico', fs.existsSync(path.join(ROOT, 'comunicacao', 'notificacoes.html')));
 check('todas noindex', admin.every(function (f) { return fs.readFileSync(f, 'utf8').includes('noindex, nofollow'); }));
 check('dashboard com realizacao', fs.readFileSync(path.join(ROOT, 'admin', 'dashboard.html'), 'utf8').includes('Nível de realização'));
 check('edicao de utilizadores', fs.readFileSync(path.join(ROOT, 'admin', 'utilizadores.html'), 'utf8').includes('modal-user-edit'));

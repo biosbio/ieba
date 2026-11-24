@@ -55,9 +55,21 @@
     var index = 0;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var timer = null;
+    var prevBtn = root.querySelector('.carousel-prev');
+    var nextBtn = root.querySelector('.carousel-next');
     function stepWidth() {
       var gap = parseFloat(window.getComputedStyle(track).gap) || 20;
       return originals[0].getBoundingClientRect().width + gap;
+    }
+    function hasOverflow() {
+      return count * stepWidth() > track.clientWidth + 2;
+    }
+    function updateControls() {
+      var overflow = hasOverflow();
+      if (prevBtn) { prevBtn.style.display = overflow ? '' : 'none'; }
+      if (nextBtn) { nextBtn.style.display = overflow ? '' : 'none'; }
+      if (!overflow) { stop(); index = 0; apply(false); }
+      else { start(); }
     }
     function apply(animate) {
       track.style.transition = animate ? 'transform 0.7s ease' : 'none';
@@ -69,18 +81,17 @@
       if (index >= count) { index = 0; apply(false); void track.offsetWidth; }
       else if (index < 0) { index = count - 1; apply(false); void track.offsetWidth; }
     });
-    var prev = root.querySelector('.carousel-prev');
-    var next = root.querySelector('.carousel-next');
-    if (prev) prev.addEventListener('click', goPrev);
-    if (next) next.addEventListener('click', goNext);
-    function start() { if (timer || reduce) return; timer = window.setInterval(goNext, 3200); }
+    if (prevBtn) { prevBtn.addEventListener('click', goPrev); }
+    if (nextBtn) { nextBtn.addEventListener('click', goNext); }
+    function start() { if (timer || reduce || !hasOverflow()) { return; } timer = window.setInterval(goNext, 3200); }
     function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
     root.addEventListener('mouseenter', stop);
     root.addEventListener('mouseleave', start);
     root.addEventListener('focusin', stop);
     root.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', function () { if (document.hidden) { stop(); } else { start(); } });
-    start();
+    window.addEventListener('resize', updateControls);
+    updateControls();
   });
 
   var lightbox = document.getElementById('lightbox');
@@ -139,6 +150,99 @@
 
   document.querySelectorAll('[data-print]').forEach(function (btn) {
     btn.addEventListener('click', function () { window.print(); });
+  });
+
+  document.querySelectorAll('[data-subscribe-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var data = new FormData(form);
+      var payload = {
+        name: data.get('name') || '',
+        email: data.get('email') || '',
+        phone: data.get('phone') || '',
+        channel: data.get('channel') || 'email',
+        topics: data.getAll('topics'),
+        consent: data.get('consent') === 'on',
+        status: 'active',
+        createdAt: new Date().toISOString()
+      };
+      var msg = form.querySelector('.form-msg');
+      if (window.IEBA_FIREBASE_CONFIG && !(window.IEBAFirebase && IEBAFirebase.enabled)) {
+        var handled = false;
+        var timer = null;
+        function send() {
+          if (handled) { return; }
+          handled = true;
+          if (timer) { window.clearTimeout(timer); }
+          if (document.contains(form)) { form.requestSubmit(); }
+        }
+        window.addEventListener('ieba:firebase-ready', send, { once: true });
+        timer = window.setTimeout(send, 5000);
+        if (msg) { msg.className = 'form-msg ok'; msg.textContent = 'A ligar ao serviço de notificações...'; }
+        return;
+      }
+      function done(ok) {
+        if (!msg) { return; }
+        msg.className = 'form-msg ' + (ok ? 'ok' : 'err');
+        msg.textContent = ok
+          ? 'Subscrição registada. Obrigado! Vai receber as novidades e lembretes escolhidos.'
+          : 'Não foi possível registar a subscrição. Tente novamente.';
+      }
+      var fb = window.IEBAFirebase;
+      if (fb && fb.enabled && fb.data) {
+        fb.data.add('subscribers', payload).then(function () { done(true); form.reset(); }).catch(function () { done(false); });
+      } else if (window.IEBAStore) {
+        IEBAStore.add('subscricoes', payload);
+        done(true);
+        form.reset();
+      } else { done(false); }
+    });
+  });
+
+  document.querySelectorAll('form[data-prayer-form]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var data = new FormData(form);
+      var payload = {
+        name: data.get('nome') || '',
+        contact: data.get('contacto') || '',
+        request: data.get('pedido') || '',
+        confidential: data.get('confidencial') === 'on',
+        consent: data.get('consentimento') === 'on',
+        status: 'Recebido',
+        createdAt: new Date().toISOString()
+      };
+      var msg = form.querySelector('.form-msg');
+      function done(ok) {
+        if (!msg) { return; }
+        msg.className = 'form-msg ' + (ok ? 'ok' : 'err');
+        msg.textContent = ok
+          ? 'Pedido recebido com confidencialidade. O Ministério de Oração vai acompanhá-lo.'
+          : 'Não foi possível enviar o pedido. Tente novamente.';
+      }
+      var fb = window.IEBAFirebase;
+      if (window.IEBA_FIREBASE_CONFIG && !(fb && fb.enabled)) {
+        var handled = false;
+        var timer = null;
+        function send() {
+          if (handled) { return; }
+          handled = true;
+          if (timer) { window.clearTimeout(timer); }
+          if (document.contains(form)) { form.requestSubmit(); }
+        }
+        window.addEventListener('ieba:firebase-ready', send, { once: true });
+        timer = window.setTimeout(send, 5000);
+        if (msg) { msg.className = 'form-msg ok'; msg.textContent = 'A ligar ao serviço de oração...'; }
+        return;
+      }
+      if (fb && fb.enabled && fb.data) {
+        fb.data.add('prayerRequests', payload).then(function () { done(true); form.reset(); }).catch(function () { done(false); });
+      } else if (window.IEBAStore) {
+        IEBAStore.add('pedidos', payload); done(true); form.reset();
+      } else { done(false); }
+    });
   });
 
   var backTop = document.getElementById('back-top');

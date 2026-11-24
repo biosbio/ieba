@@ -64,6 +64,12 @@ service cloud.firestore {
     }
     function isSignedInLeaderOrAdmin() { return isAdmin() || isLeader(); }
 
+    match /announcements/{id} {
+      allow read: if isAdmin() || isPublished();
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin();
+    }
+
     match /activities/{id} {
       allow read: if isAdmin() || isPublished() || (isLeader() && (resource.data.ministryId == myMinistry() || isMine()));
       allow create: if isAdmin() || isLeader();
@@ -74,6 +80,12 @@ service cloud.firestore {
     match /services/{id} {
       allow read: if true;
       allow write: if isAdmin();
+    }
+
+    match /media/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.ministryId == myMinistry());
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
     }
 
     match /mediaAlbums/{id} {
@@ -146,8 +158,8 @@ service cloud.firestore {
     }
 
     match /notifications/{id} {
-      allow read: if isAdmin() || (isLeader() && resource.data.ministryId == myMinistry()) || isPrayerTeam();
-      allow create: if signedIn();
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.ministryId == myMinistry()) || isPrayerTeam();
+      allow create: if isAdmin() || signedIn();
       allow update, delete: if isAdmin();
     }
 
@@ -155,6 +167,11 @@ service cloud.firestore {
       allow read: if isAdmin();
       allow create: if signedIn();
       allow update, delete: if false;
+    }
+
+    match /subscribers/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if true;
     }
 
     match /siteSettings/{id} {

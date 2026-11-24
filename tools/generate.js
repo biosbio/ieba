@@ -18,7 +18,7 @@ const ROUTE_RULES = [
   [/^plano-.*\.html$/, 'planeamento'],
   [/^(eventos|atividades|liturgia)\.html$/, 'eventos'],
   [/^campos-missionarios\.html$/, 'campos'],
-  [/^(noticias|pedidos-oracao|contactos)\.html$/, 'comunicacao'],
+  [/^(noticias|pedidos-oracao|contactos|notificacoes)\.html$/, 'comunicacao'],
   [/^projetos-sociais\.html$/, 'projetos'],
   [/^midia\.html$/, 'midia'],
   [/^doacoes\.html$/, 'financeiro'],
@@ -72,7 +72,6 @@ function navHTML(active) {
       ${linkItem('index.html', 'Início', 'inicio', active)}
       ${linkItem('sobre.html', 'Sobre', 'sobre', active)}
       ${linkItem('eventos.html', 'Eventos', 'eventos', active)}
-      ${linkItem('atividades.html', 'Atividades', 'atividades', active)}
       <li class="has-dropdown">
         ${linkItem('plano-geral.html', 'Plano Geral', 'plano', active)} <span class="caret" aria-hidden="true">▾</span>
         <ul class="dropdown-menu">
@@ -93,9 +92,6 @@ function navHTML(active) {
       </li>
       ${linkItem('projetos-sociais.html', 'Projetos', 'projetos', active)}
       ${linkItem('midia.html', 'Mídia', 'midia', active)}
-      ${linkItem('pedidos-oracao.html', 'Oração', 'pedidos', active)}
-      ${linkItem('doacoes.html', 'Doações', 'doacoes', active)}
-      ${linkItem('contactos.html', 'Contactos', 'contactos', active)}
     </ul>
   </nav>`;
 }
@@ -121,7 +117,9 @@ function footerHTML() {
         </div>
         <div><h4>Navegação</h4><ul>
           <li><a href="sobre.html">Sobre a IEBA</a></li><li><a href="eventos.html">Eventos</a></li>
-          <li><a href="atividades.html">Atividades</a></li><li><a href="noticias.html">Notícias</a></li><li><a href="plano-geral.html">Plano geral</a></li>
+          <li><a href="atividades.html">Atividades</a></li><li><a href="noticias.html">Notícias</a></li><li><a href="notificacoes.html">Notificações</a></li>
+          <li><a href="pedidos-oracao.html">Pedidos de oração</a></li><li><a href="doacoes.html">Doações</a></li><li><a href="contactos.html">Contactos</a></li>
+          <li><a href="plano-geral.html">Plano geral</a></li>
           <li><a href="plano-departamentos.html">Planos dos departamentos</a></li><li><a href="plano-direcao.html">Plano da direção</a></li>
           <li><a href="liturgia.html">Liturgia dos cultos</a></li>
           <li><a href="projetos-sociais.html">Projetos sociais</a></li>
@@ -376,7 +374,7 @@ write('index.html', layout({
     <div class="note note-info"><strong>Destaques:</strong> somente o administrador geral pode marcar, ordenar e retirar eventos desta secção. Os destaques atuais são provisórios, até à ativação do painel administrativo.</div>
     <div class="carousel" data-carousel-auto>
       <button class="carousel-btn carousel-prev" type="button" aria-label="Evento anterior">‹</button>
-      <div class="carousel-track auto">${featuredEvents.map(eventCard).join('')}</div>
+      <div class="carousel-track auto" data-store-carousel="eventos">${featuredEvents.map(eventCard).join('')}</div>
       <button class="carousel-btn carousel-next" type="button" aria-label="Evento seguinte">›</button>
     </div>
     <div style="text-align:center;margin-top:1rem"><a class="btn btn-outline-dark" href="eventos.html">Ver todos os eventos</a></div>
@@ -466,7 +464,7 @@ write('eventos.html', layout({
     <div class="note note-info"><strong>Destaques:</strong> somente o administrador geral pode marcar, ordenar e retirar eventos desta secção. Os destaques atuais são provisórios, até à ativação do painel administrativo.</div>
     <div class="carousel" data-carousel-auto>
       <button class="carousel-btn carousel-prev" type="button" aria-label="Evento anterior">‹</button>
-      <div class="carousel-track auto">${featuredEvents.map(eventCard).join('')}</div>
+      <div class="carousel-track auto" data-store-carousel="eventos">${featuredEvents.map(eventCard).join('')}</div>
       <button class="carousel-btn carousel-next" type="button" aria-label="Evento seguinte">›</button>
     </div>
   </div></section>
@@ -746,6 +744,49 @@ write('midia.html', layout({
       <div class="video-box" data-filter-item="videos missoes"><div class="play">▶</div><strong>Campos missionários</strong><small>Aguardando vídeos oficiais</small></div>
     </div>
     <div class="note note-info"><strong>Privacidade:</strong> fotografias de menores só com autorização dos responsáveis legais. Nunca incorporar URLs de vídeo não autorizadas.</div>
+  </div></section>
+  <section class="section section-alt" data-store-section><div class="wrap">
+    <h2>Mídia publicada pelo painel</h2>
+    <div data-store-render="midia"></div>
+  </div></section>`
+}));
+
+/* ---------------- NOTIFICAÇÕES / SUBSCRIÇÃO ---------------- */
+write('notificacoes.html', layout({
+  title: 'Receber Notificações', active: 'notificacoes',
+  desc: 'Subscreva novidades, eventos e lembretes de atividades da IEBA.',
+  content: `
+  ${crumb([['Início', 'index.html'], ['Notificações']])}
+  ${heroBand({ title: 'Receber Notificações', sub: 'Fique a par das novidades da igreja, dos eventos e dos lembretes de atividades.', eyebrow: 'Novidades e alertas', icon: '🔔', variant: 'variant-blue' })}
+  <section class="section"><div class="wrap split-panel">
+    <div class="panel-side">
+      <h2>O que vai receber</h2>
+      <ul class="list-check">
+        <li><strong>Novidades:</strong> comunicados e notícias da IEBA.</li>
+        <li><strong>Eventos:</strong> ações programadas nos planos.</li>
+        <li><strong>Lembretes:</strong> avisos das atividades semanais.</li>
+      </ul>
+      <p>Escolha o canal pretendido: email, mensagem para o telemóvel ou ambos. Pode alterar ou cancelar a subscrição a qualquer momento.</p>
+      <div class="note" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff"><strong>Privacidade:</strong> os seus dados são usados apenas para envio das notificações solicitadas.</div>
+    </div>
+    <div class="panel-main">
+      <form data-subscribe-form novalidate>
+        <h3>Cadastrar subscrição</h3>
+        <div class="field"><label for="sub-name">Nome <span class="text-muted">(opcional)</span></label><input id="sub-name" name="name" type="text"></div>
+        <div class="field"><label for="sub-email">Email</label><input id="sub-email" name="email" type="email" required></div>
+        <div class="field"><label for="sub-phone">Telemóvel <span class="text-muted">(opcional)</span></label><input id="sub-phone" name="phone" type="tel"></div>
+        <div class="field"><label for="sub-channel">Canal preferido</label><select id="sub-channel" name="channel"><option value="email">Email</option><option value="sms">Mensagem (SMS)</option><option value="ambos">Email e SMS</option></select></div>
+        <div class="field"><label>Temas</label>
+          <label class="checkbox"><input type="checkbox" name="topics" value="novidades" checked> Novidades e comunicados</label>
+          <label class="checkbox"><input type="checkbox" name="topics" value="eventos" checked> Eventos programados</label>
+          <label class="checkbox"><input type="checkbox" name="topics" value="lembretes" checked> Lembretes de atividades</label>
+        </div>
+        <div class="field"><label class="checkbox"><input type="checkbox" name="consent" required> Autorizo o tratamento dos meus dados para receber notificações <span class="req">*</span></label></div>
+        <button class="btn btn-blue btn-block" type="submit">Subscrever notificações</button>
+        <div class="form-msg" role="status"></div>
+        <p class="form-note">O envio efetivo depende da integração do prestador de mensagens; a subscrição fica registada no sistema.</p>
+      </form>
+    </div>
   </div></section>`
 }));
 
@@ -764,7 +805,7 @@ write('pedidos-oracao.html', layout({
       <div class="note" style="background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.3);color:#fff"><strong>Confidencialidade:</strong> não expomos o conteúdo de pedidos em registos técnicos.</div>
     </div>
     <div class="panel-main">
-      <form data-demo-form novalidate>
+      <form data-prayer-form novalidate>
         <h3>Enviar pedido</h3>
         <div class="field"><label for="pr-name">Nome <span class="text-muted">(opcional)</span></label><input id="pr-name" name="nome" type="text"></div>
         <div class="field"><label for="pr-contact">Email ou telefone <span class="text-muted">(opcional)</span></label><input id="pr-contact" name="contacto" type="text"></div>
@@ -1134,6 +1175,7 @@ const adminNav = [
   ] },
   { group: 'COMUNICAÇÃO', items: [
     ['comunicados.html', '📢', 'Comunicados', 'comunicados'],
+    ['notificacoes.html', '🔔', 'Notificações', 'notificacoes'],
     ['pedidos-oracao.html', '🙏', 'Pedidos de oração', 'pedidos'], ['contactos.html', '✉', 'Mensagens', 'contactos']
   ] },
   { group: 'SISTEMA', items: [
@@ -1174,11 +1216,20 @@ function adminPage(key, title, subtitle, body) {
         <input class="admin-search" type="search" data-admin-search placeholder="Pesquisar na página..." aria-label="Pesquisar">
         <button class="admin-icon-btn" type="button" data-toast="3 notificações por ler" aria-label="Notificações">🔔<span class="dot"></span></button>
         <div class="admin-avatar" id="admin-user-initials" title="Utilizador atual">AG</div>
-        <a class="admin-icon-btn" href="login.html" data-logout title="Terminar sessão" aria-label="Terminar sessão">⏻</a>
+        <a class="admin-logout" href="login.html" data-logout title="Terminar sessão"><span>⏻</span> Sair</a>
       </div>
     </header>
     <main class="admin-content">${body}</main>
   </div>
+  <div class="a-modal" id="modal-generic"><div class="a-modal-box">
+    <div class="a-modal-head"><h3>Editar registo</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form><div class="a-modal-body">
+      <div class="a-field"><label>Título / Nome</label><input name="title" required></div>
+      <div class="a-field"><label>Descrição</label><textarea name="description"></textarea></div>
+      <div class="a-field"><label>Estado</label><input name="status" value="Publicado"></div>
+      <div class="a-field"><label class="checkbox"><input type="checkbox" name="featured"> Destacar na página inicial</label></div>
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Cancelar</button><button class="a-btn a-btn-gold" type="submit">Guardar alterações</button></div></form>
+  </div></div>
   <div class="admin-toast" id="admin-toast" role="status"></div>
   <script src="../firebase/config.js"></script>
   <script src="../js/firebase.js"></script>
@@ -1202,8 +1253,12 @@ function aTable(headers, rows) {
 
 function aStats(items) {
   return '<div class="a-stats">' + items.map(function (s) {
-    return '<div class="a-stat"><div class="stat-top"><span class="label">' + e(s.label) + '</span><span class="stat-ico">' + s.icon + '</span></div>' +
-      '<div class="value">' + e(s.value) + '</div><div class="trend' + (s.down ? ' down' : '') + '">' + e(s.trend) + '</div></div>';
+    var inner = '<div class="stat-top"><span class="label">' + e(s.label) + '</span><span class="stat-ico">' + s.icon + '</span></div>' +
+      '<div class="value">' + e(s.value) + '</div><div class="trend' + (s.down ? ' down' : '') + '">' + e(s.trend) + '</div>' +
+      (s.link ? '<span class="stat-link">Abrir →</span>' : '');
+    return s.link
+      ? '<a class="a-stat a-stat-link" href="' + a(s.link) + '">' + inner + '</a>'
+      : '<div class="a-stat">' + inner + '</div>';
   }).join('') + '</div>';
 }
 
@@ -1223,9 +1278,9 @@ function aUserModal(mode) {
   var title = editing ? 'Editar responsável' : 'Cadastrar responsável';
   var submit = editing ? 'Guardar alterações' : 'Cadastrar responsável';
   var pageOptions = adminNav.map(function (g) {
-    return '<div style="margin-bottom:.9rem"><strong style="font-size:.72rem;letter-spacing:.1em;color:var(--a-muted)">' + e(g.group) + '</strong><div style="display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.45rem">' +
+    return '<div class="a-page-group"><strong>' + e(g.group) + '</strong><div class="a-page-grid">' +
       g.items.map(function (it) {
-        return '<label class="checkbox" style="font-size:.76rem"><input type="checkbox" name="pages" value="' + a(it[3]) + '"> ' + e(it[2]) + '</label>';
+        return '<label class="checkbox"><input type="checkbox" name="pages" value="' + a(it[3]) + '"> ' + e(it[2]) + '</label>';
       }).join('') + '</div></div>';
   }).join('');
   return `<div class="a-modal" id="${modalId}"><div class="a-modal-box" style="max-width:620px">
@@ -1265,6 +1320,69 @@ function aPlanProgress() {
   </div></div>`;
 }
 
+function aPrayerModal() {
+  return `<div class="a-modal" id="modal-pedido"><div class="a-modal-box">
+    <div class="a-modal-head"><h3>Pedido de oração</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form data-store-key="pedidos" data-store-mode="edit"><div class="a-modal-body">
+      <div class="a-field"><label>Nome</label><input name="name"></div>
+      <div class="a-field"><label>Contacto</label><input name="contact"></div>
+      <div class="a-field"><label>Pedido</label><textarea name="request"></textarea></div>
+      <div class="a-field"><label>Estado</label><select name="status"><option>Recebido</option><option>Em acompanhamento</option><option>Concluído</option><option>Arquivado</option></select></div>
+      <div class="a-field"><label class="checkbox"><input type="checkbox" name="confidential"> Confidencial</label></div>
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Fechar</button><button class="a-btn a-btn-gold" type="submit">Guardar</button></div></form>
+  </div></div>`;
+}
+
+function aContentModal(kind, mode) {
+  var editing = mode === 'edit';
+  var id = 'modal-' + kind + (editing ? '-edit' : '');
+  var titles = { evento: 'evento', comunicado: 'comunicado', atividade: 'atividade' };
+  var title = (editing ? 'Editar ' : 'Novo ') + titles[kind];
+  var submit = editing ? 'Guardar alterações' : 'Publicar';
+  var fields = {
+    evento: [
+      ['Título', 'title', 'text', 'Nome do evento'],
+      ['Data', 'date', 'text', 'DD/MM/AAAA'],
+      ['Horário', 'time', 'text', '10h30 – 12h30'],
+      ['Local', 'location', 'text', 'Sede da IEBA'],
+      ['Ministério', 'ministry', 'text', 'IEBA'],
+      ['Descrição', 'description', 'textarea', 'Descrição do evento']
+    ],
+    comunicado: [
+      ['Título', 'title', 'text', 'Título do comunicado'],
+      ['Data', 'date', 'text', 'DD/MM/AAAA'],
+      ['Texto', 'text', 'textarea', 'Conteúdo do comunicado']
+    ],
+    atividade: [
+      ['Atividade', 'name', 'text', 'Nome da atividade'],
+      ['Dia', 'day', 'text', 'Domingo'],
+      ['Horário', 'time', 'text', '09h – 10h'],
+      ['Ministério', 'ministry', 'text', 'IEBA']
+    ],
+    midia: [
+      ['Título', 'title', 'text', 'Nome da fotografia ou vídeo'],
+      ['Álbum / Evento', 'album', 'text', 'Ex.: Culto dominical'],
+      ['Descrição', 'description', 'textarea', 'Legenda da mídia']
+    ]
+  }[kind];
+  var body = fields.map(function (f) {
+    if (f[2] === 'textarea') {
+      return '<div class="a-field"><label>' + e(f[0]) + '</label><textarea name="' + a(f[1]) + '" placeholder="' + a(f[3]) + '" required></textarea></div>';
+    }
+    return '<div class="a-field"><label>' + e(f[0]) + '</label><input name="' + a(f[1]) + '" type="text" placeholder="' + a(f[3]) + '" required></div>';
+  }).join('');
+  var featured = kind === 'comunicado'
+    ? '<div class="a-field"><label class="checkbox"><input type="checkbox" name="featured" checked> Destacar nas notícias e na página inicial</label></div>'
+    : '<div class="a-field"><label class="checkbox"><input type="checkbox" name="featured"> Destacar na página inicial</label></div>';
+  var key = { evento: 'eventos', comunicado: 'comunicados', atividade: 'atividades', midia: 'midia' }[kind];
+  return `<div class="a-modal" id="${id}"><div class="a-modal-box" style="max-width:620px">
+    <div class="a-modal-head"><h3>${title}</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form data-store-key="${key}" data-store-mode="${editing ? 'edit' : 'add'}"><div class="a-modal-body">
+      ${body}${featured}
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Cancelar</button><button class="a-btn a-btn-gold" type="submit">${submit}</button></div></form>
+  </div></div>`;
+}
+
 function aComunicadoModal() {
   return `<div class="a-modal" id="modal-comunicado"><div class="a-modal-box">
     <div class="a-modal-head"><h3>Novo comunicado</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
@@ -1278,8 +1396,9 @@ function aComunicadoModal() {
 }
 
 function aActions(label) {
-  return '<div class="a-actions"><button class="a-btn a-btn-ghost a-btn-sm" type="button" data-toast="Registo aberto para edição">Editar</button>' +
-    '<button class="a-btn a-btn-primary a-btn-sm" type="button" data-toast="' + a(label) + ' atualizado">Publicar</button></div>';
+  return '<div class="a-actions"><button class="a-btn a-btn-ghost a-btn-sm" type="button" data-generic-edit title="Editar" aria-label="Editar">✏️</button>' +
+    '<button class="a-btn a-btn-primary a-btn-sm" type="button" data-toast="' + a(label) + ' publicado">Publicar</button>' +
+    '<button class="a-btn a-btn-danger a-btn-sm" type="button" data-generic-remove title="Remover" aria-label="Remover">🗑</button></div>';
 }
 
 write('admin/login.html', `<!DOCTYPE html>
@@ -1302,6 +1421,15 @@ write('admin/login.html', `<!DOCTYPE html>
       <p class="login-note">A autenticação é protegida por verificação em dois passos e regras de acesso por perfil.</p>
     </form>
   </section>
+  <div class="a-modal" id="modal-generic"><div class="a-modal-box">
+    <div class="a-modal-head"><h3>Editar registo</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form><div class="a-modal-body">
+      <div class="a-field"><label>Título / Nome</label><input name="title" required></div>
+      <div class="a-field"><label>Descrição</label><textarea name="description"></textarea></div>
+      <div class="a-field"><label>Estado</label><input name="status" value="Publicado"></div>
+      <div class="a-field"><label class="checkbox"><input type="checkbox" name="featured"> Destacar na página inicial</label></div>
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Cancelar</button><button class="a-btn a-btn-gold" type="submit">Guardar alterações</button></div></form>
+  </div></div>
   <div class="admin-toast" id="admin-toast" role="status"></div>
   <script src="../firebase/config.js"></script>
   <script src="../js/firebase.js"></script>
@@ -1315,10 +1443,10 @@ const upcoming = C.events.filter(function (x) { return x.status === 'A realizar'
 const adminBodies = {
   dashboard: () => `
     ${aStats([
-      { label: 'Eventos ativos', value: String(upcoming.length).padStart(2,'0'), trend: '4 por realizar', icon: '📅' },
-      { label: 'Pedidos de oração', value: '12', trend: '3 novos hoje', icon: '🙏' },
-      { label: 'Mensagens', value: '05', trend: '2 por responder', icon: '✉' },
-      { label: 'Peças de mídia', value: '128', trend: '+12 este mês', icon: '📷' }
+      { label: 'Eventos ativos', value: String(upcoming.length).padStart(2,'0'), trend: '4 por realizar', icon: '📅', link: 'eventos.html' },
+      { label: 'Pedidos de oração', value: '12', trend: '3 novos hoje', icon: '🙏', link: 'pedidos-oracao.html' },
+      { label: 'Mensagens', value: '05', trend: '2 por responder', icon: '✉', link: 'contactos.html' },
+      { label: 'Peças de mídia', value: '128', trend: '+12 este mês', icon: '📷', link: 'midia.html' }
     ])}
     <div class="a-grid a-grid-2">
       <div class="a-card"><div class="a-card-head"><div><h2>Nível de realização</h2><p>Execução global e por departamento dos planos anuais</p></div></div>
@@ -1350,7 +1478,7 @@ const adminBodies = {
       ${aTable(['Evento','Data','Ministério','Estado','Ações'], upcoming.slice(0,5).map(function (ev) {
         return '<tr data-search-row><td><span class="strong">' + e(ev.title) + '</span><span class="sub">' + e(ev.location) + '</span></td><td>' + e(ev.date) + '</td><td>' + e(ev.ministry) + '</td><td>' + aBadge(ev.status) + '</td><td>' + aActions('Evento') + '</td></tr>';
       }))}
-    </div>${aPlanProgress()}${aModal('modal-evento','Novo evento',[['Título','Nome do evento','text','title'],['Data','DD/MM/AAAA','text','date'],['Horário','10h30 – 12h30','text','time'],['Local','Sede da IEBA','text','location']],'eventos')}`,
+    </div>${aPlanProgress()}${aContentModal('evento')}${aContentModal('evento','edit')}`,
 
   eventos: () => `
     ${aStats([{label:'Total de eventos',value:String(C.events.length).padStart(2,'0'),trend:'Todos os estados',icon:'📅'},{label:'A realizar',value:String(upcoming.length).padStart(2,'0'),trend:'Próximos',icon:'⏳'},{label:'Em destaque',value:String(C.events.filter(x=>x.featured).length).padStart(2,'0'),trend:'Página inicial',icon:'⭐'},{label:'Realizados',value:String(C.events.filter(x=>x.status==='Realizado').length).padStart(2,'0'),trend:'Histórico',icon:'✓'}])}
@@ -1358,7 +1486,7 @@ const adminBodies = {
       <div class="a-card-body"><div class="a-filterbar"><button class="active" data-admin-filter="all">Todos</button><button data-admin-filter="A realizar">A realizar</button><button data-admin-filter="Realizado">Realizado</button><button data-admin-filter="Cancelado">Cancelado</button><button data-admin-filter="Arquivado">Arquivado</button></div>
       ${aTable(['Evento','Realização','Publicação','Ministério','Estado','Ações'], C.events.map(function (ev) {
         return '<tr data-search-row data-status="' + a(ev.status) + '"><td><span class="strong">' + e(ev.title) + '</span><span class="sub">' + e(ev.location) + '</span></td><td>' + e(ev.date) + '</td><td>' + e(ev.published || '—') + '</td><td>' + e(ev.ministry) + '</td><td>' + aBadge(ev.status) + '</td><td>' + aActions('Evento') + '</td></tr>';
-      }))}</div><div data-store-render-admin="eventos"></div></div>${aModal('modal-evento','Novo evento',[['Título','Nome do evento','text','title'],['Data','DD/MM/AAAA','text','date'],['Horário','10h30 – 12h30','text','time'],['Local','Sede da IEBA','text','location']],'eventos')}`,
+      }))}</div><div data-store-render-admin="eventos"></div></div>${aContentModal('evento')}${aContentModal('evento','edit')}`,
 
   cultos: () => `
     <div class="a-card"><div class="a-card-head"><div><h2>Cultos e horários</h2><p>Programação regular de segunda a domingo · Fuso horário Africa/Bissau</p></div><button class="a-btn a-btn-gold" data-modal-open="modal-culto">+ Novo horário</button></div>
@@ -1376,14 +1504,16 @@ const adminBodies = {
     <div class="a-card"><div class="a-card-head"><div><h2>Atividades semanais</h2><p>Encontros regulares de segunda a domingo — distintos dos eventos programados</p></div><button class="a-btn a-btn-gold" data-modal-open="modal-atividade">+ Nova atividade</button></div>
       <div class="a-card-body">${aTable(['Dia','Atividade','Horário','Ministério','Estado','Ações'], C.services.map(function (s) {
         return '<tr data-search-row><td><span class="strong">' + e(s.day) + '</span></td><td>' + e(s.name) + '</td><td>' + e(s.time) + '</td><td>' + e(s.ministry) + '</td><td>' + aBadge('Ativo') + '</td><td>' + aActions('Atividade') + '</td></tr>';
-      }))}</div><div data-store-render-admin="atividades"></div></div>${aModal('modal-atividade','Nova atividade',[['Atividade','Nome da atividade','text','name'],['Dia','Domingo','text','day'],['Horário','09h – 10h','text','time'],['Ministério','IEBA','text','ministry']],'atividades')}`,
+      }))}</div><div data-store-render-admin="atividades"></div></div>${aContentModal('atividade')}${aContentModal('atividade','edit')}`,
 
   midia: () => `
     ${aStats([{label:'Fotografias',value:'128',trend:'+12 este mês',icon:'📷'},{label:'Álbuns',value:'14',trend:'Por evento',icon:'🗂️'},{label:'Vídeos',value:'23',trend:'YouTube',icon:'▶'},{label:'Armazenamento',value:'62%',trend:'Quota do Cloudinary',icon:'☁️'}])}
-    <div class="a-card"><div class="a-card-head"><div><h2>Biblioteca de mídia</h2><p>Fotografias, álbuns e vídeos das atividades da igreja</p></div><button class="a-btn a-btn-gold" data-toast="Seletor de ficheiros aberto">+ Adicionar mídia</button></div>
+    <div class="a-card"><div class="a-card-head"><div><h2>Biblioteca de mídia</h2><p>Fotografias e vídeos organizados por álbum — edite, oculte ou remova cada item</p></div><button class="a-btn a-btn-gold" data-modal-open="modal-midia">+ Adicionar mídia</button></div>
       <div class="a-card-body"><div class="grid grid-4">${['Culto dominical','Juventude','Sal da Terra','Missões','Louvor','Crianças','Senhoras','Comunidade'].map(function (t, i) {
         return '<article class="card"><div class="thumb ' + ['','thumb-blue','thumb-gold','thumb-teal','thumb-plum'][i%5] + '"><span class="thumb-label" style="font-size:1rem">' + e(t) + '</span></div><div class="card-body" style="padding:1rem"><span class="strong">' + e(t) + '</span><span class="sub" style="display:block;color:var(--a-muted);font-size:.74rem">' + (i+3) + ' ficheiros</span></div></article>';
-      }).join('')}</div></div></div>`,
+      }).join('')}</div>
+      <div data-store-render-admin="midia"></div>
+      </div></div>${aContentModal('midia')}${aContentModal('midia','edit')}`,
 
   projetos: () => `
     <div class="a-card"><div class="a-card-head"><div><h2>Projetos sociais</h2><p>Acompanhe objetivos, beneficiários e necessidades de apoio</p></div><button class="a-btn a-btn-gold" data-modal-open="modal-projeto">+ Novo projeto</button></div>
@@ -1391,6 +1521,20 @@ const adminBodies = {
         var pct = p.status === 'Em curso' ? 62 : 18;
         return '<tr data-search-row><td><span class="strong">' + e(p.name) + '</span><span class="sub">' + e(p.needs) + '</span></td><td>' + e(p.beneficiaries) + '</td><td>' + aBadge(p.status) + '</td><td><div class="a-progress" style="max-width:120px"><span style="width:' + pct + '%"></span></div><span class="sub">' + pct + '%</span></td><td>' + aActions('Projeto') + '</td></tr>';
       }))}</div></div>${aModal('modal-projeto','Novo projeto',[['Nome','Nome do projeto'],['Beneficiários','Quem beneficia'],['Objetivo','O que se pretende']])}`,
+
+  notificacoes: () => `
+    ${aStats([{label:'Subscritores',value:'—',trend:'Cadastros ativos',icon:'👥'},{label:'Notificações enviadas',value:'—',trend:'Registo no sistema',icon:'🔔'},{label:'Preferência email',value:'—',trend:'Canal principal',icon:'✉'},{label:'Lembretes',value:'—',trend:'Atividades',icon:'⏰'}])}
+    <div class="a-grid a-grid-2">
+      <div class="a-card"><div class="a-card-head"><div><h2>Enviar notificação</h2><p>Novidades, eventos ou lembretes para os subscritores</p></div></div>
+        <div class="a-card-body">
+          <form data-admin-form data-store-key="notificacoes"><div class="a-field"><label>Título</label><input name="title" placeholder="Título da notificação" required></div>
+            <div class="a-field"><label>Mensagem</label><textarea name="message" placeholder="Conteúdo da mensagem" required></textarea></div>
+            <div class="a-field"><label>Tema</label><select name="topic"><option value="novidades">Novidades</option><option value="eventos">Eventos</option><option value="lembretes">Lembretes</option></select></div>
+            <button class="a-btn a-btn-gold" type="submit">Registar e enviar</button></form>
+        </div></div>
+      <div class="a-card"><div class="a-card-head"><div><h2>Subscritores</h2><p>Quem recebe novidades e lembretes</p></div></div>
+        <div class="a-card-body"><div data-store-render-admin="subscritores"></div></div></div>
+    </div>`,
 
   comunicados: () => `
     ${aStats([{label:'Comunicados publicados',value:String(C.news.length).padStart(2,'0'),trend:'No site',icon:'📢'},{label:'Em destaque',value:String(C.news.filter(function(n){return n.active;}).length).padStart(2,'0'),trend:'Carrossel da inicial',icon:'⭐'},{label:'Publicados no mês',value:'04',trend:'Atualizado',icon:'📰'},{label:'Aprovações',value:'02',trend:'Pendentes',icon:'⏳'}])}
@@ -1400,7 +1544,7 @@ const adminBodies = {
         return '<tr data-search-row><td><span class="strong">' + e(n.title) + '</span><span class="sub">' + e(n.text.slice(0, 70)) + '...</span></td><td>' + e(n.source) + '</td><td>' + e(n.date) + '</td><td>' + (n.active ? aBadge('Publicado') : aBadge('Rascunho')) + '</td><td>' + aBadge(n.active ? 'Publicado' : 'Pendente') + '</td><td>' + aActions('Comunicado') + '</td></tr>';
       }))}
       <div data-store-render-admin-comunicados></div>
-      </div></div>${aComunicadoModal()}`,
+      </div></div>${aContentModal('comunicado')}${aContentModal('comunicado','edit')}`,
 
   pedidos: () => `
     ${aStats([{label:'Pedidos recebidos',value:'12',trend:'Hoje',icon:'🙏'},{label:'Em acompanhamento',value:'05',trend:'Ministério de Oração',icon:'⏳'},{label:'Concluídos',value:'38',trend:'Este mês',icon:'✓'},{label:'Confidenciais',value:'09',trend:'Acesso restrito',icon:'🔒'}])}
@@ -1413,8 +1557,8 @@ const adminBodies = {
         ['PR-1039','—','Culto de domingo','Recebido','Anónimo'],
         ['PR-1038','Maria S.','Estudos','Em acompanhamento','Confidencial']
       ].map(function (r) {
-        return '<tr data-search-row data-status="' + a(r[3]) + '"><td><span class="strong">' + e(r[0]) + '</span></td><td>' + e(r[1]) + '</td><td>' + e(r[2]) + '</td><td>' + aBadge(r[3]) + '</td><td>' + aBadge(r[4] === 'Confidencial' ? 'Pendente' : r[4]) + '</td><td><button class="a-btn a-btn-ghost a-btn-sm" data-toast="Pedido aberto">Abrir</button></td></tr>';
-      }))}</div></div>`,
+        return '<tr data-search-row data-status="' + a(r[3]) + '"><td><span class="strong">' + e(r[0]) + '</span></td><td>' + e(r[1]) + '</td><td>' + e(r[2]) + '</td><td>' + aBadge(r[3]) + '</td><td>' + aBadge(r[4] === 'Confidencial' ? 'Pendente' : r[4]) + '</td><td><span class="a-badge gray">Exemplo</span></td></tr>';
+      }))}</div><div data-store-render-admin="pedidos"></div></div>${aPrayerModal()}`,
 
   contactos: () => `
     <div class="a-card"><div class="a-card-head"><div><h2>Mensagens recebidas</h2><p>Formulário de contacto do site institucional</p></div></div>
@@ -1489,6 +1633,7 @@ const adminMeta = {
   atividades: ['Atividades','Encontros regulares da igreja'],
   midia: ['Mídia','Fotografias, álbuns e vídeos'],
   projetos: ['Projetos sociais','Projetos e necessidades de apoio'],
+  notificacoes: ['Notificações','Subscritores e envio de alertas'],
   comunicados: ['Comunicados','Publicações e destaques do site'],
   pedidos: ['Pedidos de oração','Área confidencial do Ministério de Oração'],
   contactos: ['Mensagens','Contactos recebidos através do site'],

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notificações | IEBA Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="../assets/logo/logo.jpg">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="admin-body" data-admin-page="notificacoes">
+  <aside class="admin-sidebar" id="sidebar">
+    <div class="admin-brand"><img src="../assets/logo/logo.jpg" alt="IEBA"><div><strong>IEBA</strong><small>Painel administrativo</small></div></div>
+    <nav class="admin-nav" aria-label="Menu administrativo"><p class="nav-label">GERAL</p><a href="dashboard.html" data-page="dashboard"><span class="ico">▦</span>Painel geral</a><p class="nav-label">CONTEÚDO</p><a href="eventos.html" data-page="eventos"><span class="ico">📅</span>Eventos</a><a href="cultos.html" data-page="cultos"><span class="ico">◷</span>Cultos e horários</a><a href="ministerios.html" data-page="ministerios"><span class="ico">👥</span>Ministérios</a><a href="atividades.html" data-page="atividades"><span class="ico">✦</span>Atividades</a><a href="midia.html" data-page="midia"><span class="ico">📷</span>Mídia</a><a href="projetos-sociais.html" data-page="projetos"><span class="ico">🤝</span>Projetos sociais</a><p class="nav-label">COMUNICAÇÃO</p><a href="comunicados.html" data-page="comunicados"><span class="ico">📢</span>Comunicados</a><a href="notificacoes.html" data-page="notificacoes" class="active"><span class="ico">🔔</span>Notificações</a><a href="pedidos-oracao.html" data-page="pedidos"><span class="ico">🙏</span>Pedidos de oração</a><a href="contactos.html" data-page="contactos"><span class="ico">✉</span>Mensagens</a><p class="nav-label">SISTEMA</p><a href="doacoes.html" data-page="doacoes"><span class="ico">💛</span>Doações</a><a href="utilizadores.html" data-page="utilizadores"><span class="ico">🔐</span>Utilizadores</a><a href="auditoria.html" data-page="auditoria"><span class="ico">📋</span>Auditoria</a><a href="configuracoes.html" data-page="configuracoes"><span class="ico">⚙</span>Configurações</a></nav>
+    <div class="admin-sidebar-footer"><strong>IEBA</strong> · Bissau, Guiné-Bissau<br>Sessão segura · <span id="admin-year">2026</span></div>
+  </aside>
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <button class="admin-menu-btn" type="button" data-admin-menu aria-label="Abrir menu">☰</button>
+      <div class="admin-page-title"><h1>Notificações</h1><p>Subscritores e envio de alertas</p></div>
+      <div class="admin-top-actions">
+        <input class="admin-search" type="search" data-admin-search placeholder="Pesquisar na página..." aria-label="Pesquisar">
+        <button class="admin-icon-btn" type="button" data-toast="3 notificações por ler" aria-label="Notificações">🔔<span class="dot"></span></button>
+        <div class="admin-avatar" id="admin-user-initials" title="Utilizador atual">AG</div>
+        <a class="admin-logout" href="login.html" data-logout title="Terminar sessão"><span>⏻</span> Sair</a>
+      </div>
+    </header>
+    <main class="admin-content">
+    <div class="a-stats"><div class="a-stat"><div class="stat-top"><span class="label">Subscritores</span><span class="stat-ico">👥</span></div><div class="value">—</div><div class="trend">Cadastros ativos</div></div><div class="a-stat"><div class="stat-top"><span class="label">Notificações enviadas</span><span class="stat-ico">🔔</span></div><div class="value">—</div><div class="trend">Registo no sistema</div></div><div class="a-stat"><div class="stat-top"><span class="label">Preferência email</span><span class="stat-ico">✉</span></div><div class="value">—</div><div class="trend">Canal principal</div></div><div class="a-stat"><div class="stat-top"><span class="label">Lembretes</span><span class="stat-ico">⏰</span></div><div class="value">—</div><div class="trend">Atividades</div></div></div>
+    <div class="a-grid a-grid-2">
+      <div class="a-card"><div class="a-card-head"><div><h2>Enviar notificação</h2><p>Novidades, eventos ou lembretes para os subscritores</p></div></div>
+        <div class="a-card-body">
+          <form data-admin-form data-store-key="notificacoes"><div class="a-field"><label>Título</label><input name="title" placeholder="Título da notificação" required></div>
+            <div class="a-field"><label>Mensagem</label><textarea name="message" placeholder="Conteúdo da mensagem" required></textarea></div>
+            <div class="a-field"><label>Tema</label><select name="topic"><option value="novidades">Novidades</option><option value="eventos">Eventos</option><option value="lembretes">Lembretes</option></select></div>
+            <button class="a-btn a-btn-gold" type="submit">Registar e enviar</button></form>
+        </div></div>
+      <div class="a-card"><div class="a-card-head"><div><h2>Subscritores</h2><p>Quem recebe novidades e lembretes</p></div></div>
+        <div class="a-card-body"><div data-store-render-admin="subscritores"></div></div></div>
+    </div></main>
+  </div>
+  <div class="a-modal" id="modal-generic"><div class="a-modal-box">
+    <div class="a-modal-head"><h3>Editar registo</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form><div class="a-modal-body">
+      <div class="a-field"><label>Título / Nome</label><input name="title" required></div>
+      <div class="a-field"><label>Descrição</label><textarea name="description"></textarea></div>
+      <div class="a-field"><label>Estado</label><input name="status" value="Publicado"></div>
+      <div class="a-field"><label class="checkbox"><input type="checkbox" name="featured"> Destacar na página inicial</label></div>
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Cancelar</button><button class="a-btn a-btn-gold" type="submit">Guardar alterações</button></div></form>
+  </div></div>
+  <div class="admin-toast" id="admin-toast" role="status"></div>
+  <script src="../firebase/config.js"></script>
+  <script src="../js/firebase.js"></script>
+  <script src="../js/store.js" defer></script>
+  <script src="../js/dynamic-content.js" defer></script>
+  <script src="../js/admin.js" defer></script>
+</body>
+</html>

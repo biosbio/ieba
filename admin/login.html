@@ -18,6 +18,15 @@
       <p class="login-note">A autenticação é protegida por verificação em dois passos e regras de acesso por perfil.</p>
     </form>
   </section>
+  <div class="a-modal" id="modal-generic"><div class="a-modal-box">
+    <div class="a-modal-head"><h3>Editar registo</h3><button class="a-modal-close" type="button" aria-label="Fechar">×</button></div>
+    <form data-admin-form><div class="a-modal-body">
+      <div class="a-field"><label>Título / Nome</label><input name="title" required></div>
+      <div class="a-field"><label>Descrição</label><textarea name="description"></textarea></div>
+      <div class="a-field"><label>Estado</label><input name="status" value="Publicado"></div>
+      <div class="a-field"><label class="checkbox"><input type="checkbox" name="featured"> Destacar na página inicial</label></div>
+    </div><div class="a-modal-foot"><button class="a-btn a-btn-ghost" type="button" data-modal-cancel>Cancelar</button><button class="a-btn a-btn-gold" type="submit">Guardar alterações</button></div></form>
+  </div></div>
   <div class="admin-toast" id="admin-toast" role="status"></div>
   <script src="../firebase/config.js"></script>
   <script src="../js/firebase.js"></script>
