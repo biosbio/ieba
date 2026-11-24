@@ -123,24 +123,43 @@
       if (form.classList.contains('login-form')) {
         var email = form.querySelector('#login-email').value.trim().toLowerCase();
         var pass = form.querySelector('#login-pass').value;
-        var next = null;
 
-        if (email === 'moi7-@hotmail.com' && pass === 'TESTE123') {
-          next = { role: 'admin', name: 'Administrador Geral', email: email, pages: [] };
-        } else if (window.IEBAStore) {
-          var users = IEBAStore.all('utilizadores');
-          for (var i = 0; i < users.length; i++) {
-            var u = users[i];
-            if (String(u.email || '').toLowerCase() === email && u.password === pass) {
-              next = { role: 'responsavel', name: u.name, email: u.email, pages: u.pages || [] };
-              break;
+        function finish(next) {
+          if (!next) { showToast('Credenciais inválidas. Verifique o email e a palavra-passe.'); return; }
+          localStorage.setItem(SESSION_KEY, JSON.stringify(next));
+          window.location.href = 'dashboard.html';
+        }
+        function localLogin() {
+          var next = null;
+          if (email === 'moi7-@hotmail.com' && pass === 'TESTE123') {
+            next = { role: 'admin', name: 'Administrador Geral', email: email, pages: [] };
+          } else if (window.IEBAStore) {
+            var users = IEBAStore.all('utilizadores');
+            for (var i = 0; i < users.length; i++) {
+              var u = users[i];
+              if (String(u.email || '').toLowerCase() === email && u.password === pass) {
+                next = { role: 'responsavel', name: u.name, email: u.email, pages: u.pages || [] };
+                break;
+              }
             }
           }
+          finish(next);
         }
 
-        if (!next) { showToast('Credenciais inválidas. Verifique o email e a palavra-passe.'); return; }
-        localStorage.setItem(SESSION_KEY, JSON.stringify(next));
-        window.location.href = 'dashboard.html';
+        var fb = window.IEBAFirebase;
+        if (fb && fb.enabled && fb.sdk) {
+          fb.sdk.auth.signInWithEmailAndPassword(fb.auth, email, pass)
+            .then(function (cred) {
+              return fb.sdk.firestore.getDoc(fb.sdk.firestore.doc(fb.db, 'users', cred.user.uid));
+            })
+            .then(function (snap) {
+              var d = snap.data() || {};
+              finish({ role: d.role || 'leader', name: d.name || email, email: email, pages: d.pages || [] });
+            })
+            .catch(function () { localLogin(); });
+          return;
+        }
+        localLogin();
         return;
       }
 

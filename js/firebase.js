@@ -24,7 +24,7 @@
     var app = mods[0].initializeApp(config);
     var auth = mods[1].getAuth(app);
     var db = mods[2].getFirestore(app);
-    window.IEBAFirebase = { enabled: true, app: app, auth: auth, db: db, appCheck: mods[3] };
+    window.IEBAFirebase = { enabled: true, app: app, auth: auth, db: db, appCheck: mods[3], sdk: { auth: mods[1], firestore: mods[2] } };
     window.dispatchEvent(new CustomEvent('ieba:firebase-ready'));
   }).catch(function (err) {
     console.warn('Firebase não inicializado:', err);

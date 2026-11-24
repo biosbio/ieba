@@ -46,7 +46,7 @@ function rewriteLinks(html, destRel) {
       const suffix = target.slice(clean.length);
       return attr + '="' + rel + suffix + '"';
     })
-    .replace(/(href|src)="((?:css|js|assets)\/[^"]+)"/g, function (m, attr, target) {
+    .replace(/(href|src)="((?:css|js|assets|firebase)\/[^"]+)"/g, function (m, attr, target) {
       return attr + '="' + prefix + target + '"';
     });
 }
@@ -206,6 +206,8 @@ function layout(o) {
     <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Fechar">×</button>
     <div class="lightbox-inner"><div class="lightbox-visual" id="lightbox-visual"></div><h3 id="lightbox-title" style="color:#fff;margin-top:1rem"></h3></div>
   </div>
+  <script src="firebase/config.js"></script>
+  <script src="js/firebase.js"></script>
   <script src="js/store.js" defer></script>
   <script src="js/dynamic-content.js" defer></script>
   <script src="js/app.js" defer></script>
@@ -1178,6 +1180,8 @@ function adminPage(key, title, subtitle, body) {
     <main class="admin-content">${body}</main>
   </div>
   <div class="admin-toast" id="admin-toast" role="status"></div>
+  <script src="../firebase/config.js"></script>
+  <script src="../js/firebase.js"></script>
   <script src="../js/store.js" defer></script>
   <script src="../js/dynamic-content.js" defer></script>
   <script src="../js/admin.js" defer></script>
@@ -1299,6 +1303,8 @@ write('admin/login.html', `<!DOCTYPE html>
     </form>
   </section>
   <div class="admin-toast" id="admin-toast" role="status"></div>
+  <script src="../firebase/config.js"></script>
+  <script src="../js/firebase.js"></script>
   <script src="../js/store.js" defer></script>
   <script src="../js/dynamic-content.js" defer></script>
   <script src="../js/admin.js" defer></script>
