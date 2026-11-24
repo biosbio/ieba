@@ -1,0 +1,149 @@
+/* ============================================================
+   IEBA — firebase/firestore.rules
+   Regras de segurança do Firestore (plano Spark).
+
+   Princípios:
+   - NEGAR por omissão.
+   - Administrador geral (custom claim role == 'admin') controla tudo.
+   - Responsáveis (role == 'leader') só o seu ministério/campo.
+   - Nenhuma publicação sem aprovação do administrador.
+   - Pedidos de oração e mensagens são privados.
+   ============================================================ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && request.auth.token.role == 'admin'; }
+    function isLeader() { return signedIn() && request.auth.token.role == 'leader'; }
+    function isPrayerTeam() { return signedIn() && request.auth.token.prayer == true; }
+    function myMinistry() { return request.auth.token.ministry; }
+    function myField() { return request.auth.token.field; }
+    function isPublished() {
+      return resource.data.status in ['published', 'publicado', 'aprovado'];
+    }
+    function isMine() {
+      return signedIn() && resource.data.createdBy == request.auth.uid;
+    }
+    function validPublishedWrite() {
+      return request.resource.data.status in ['draft', 'pendente', 'pending', 'aprovado'];
+    }
+
+    match /users/{uid} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /ministries/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.id == myMinistry());
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (isLeader() && resource.data.id == myMinistry());
+    }
+
+    match /events/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && (resource.data.ministryId == myMinistry() || isMine()));
+      allow create: if isSignedInLeaderOrAdmin();
+      allow update: if isAdmin() || (isLeader() && resource.data.ministryId == myMinistry() && validPublishedWrite());
+      allow delete: if isAdmin();
+    }
+    function isSignedInLeaderOrAdmin() { return isAdmin() || isLeader(); }
+
+    match /activities/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && (resource.data.ministryId == myMinistry() || isMine()));
+      allow create: if isAdmin() || isLeader();
+      allow update: if isAdmin() || (isLeader() && resource.data.ministryId == myMinistry() && validPublishedWrite());
+      allow delete: if isAdmin();
+    }
+
+    match /services/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /mediaAlbums/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.ministryId == myMinistry());
+      allow create: if isAdmin() || isLeader();
+      allow update: if isAdmin() || (isLeader() && resource.data.ministryId == myMinistry());
+      allow delete: if isAdmin();
+    }
+
+    match /mediaItems/{id} {
+      allow read: if isAdmin() || isPublished();
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+
+    match /projects/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.ministryId == myMinistry());
+      allow create: if isAdmin() || isLeader();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    match /missionFields/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /missionFieldUpdates/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.fieldId == myField());
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+    match /missionFieldActivities/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.fieldId == myField());
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+    match /missionFieldMedia/{id} {
+      allow read: if isAdmin() || isPublished();
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+    match /missionFieldProjects/{id} {
+      allow read: if isAdmin() || isPublished() || (isLeader() && resource.data.fieldId == myField());
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+    match /missionFieldReports/{id} {
+      allow read: if isAdmin() || (isLeader() && resource.data.fieldId == myField());
+      allow create: if isAdmin() || isLeader();
+      allow update, delete: if isAdmin();
+    }
+    match /missionFieldSchedules/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /prayerRequests/{id} {
+      allow read, update, delete: if isAdmin() || isPrayerTeam();
+      allow create: if true;
+    }
+
+    match /contactMessages/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if true;
+    }
+
+    match /donations/{id} {
+      allow read, update, delete: if isAdmin();
+      allow create: if signedIn();
+    }
+
+    match /notifications/{id} {
+      allow read: if isAdmin() || (isLeader() && resource.data.ministryId == myMinistry()) || isPrayerTeam();
+      allow create: if signedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /auditLogs/{id} {
+      allow read: if isAdmin();
+      allow create: if signedIn();
+      allow update, delete: if false;
+    }
+
+    match /siteSettings/{id} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

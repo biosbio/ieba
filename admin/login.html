@@ -1,126 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Acesso ao painel | IEBA</title>
-  <meta name="description" content="Área administrativa privada da IEBA">
-  <meta name="robots" content="noindex, nofollow">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Acesso ao painel | IEBA">
-  <meta property="og:description" content="Área administrativa privada da IEBA">
-  <meta property="og:image" content="assets/logo/logo.jpg">
-  <link rel="icon" href="assets/logo/logo.jpg">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/components.css">
-  <link rel="stylesheet" href="css/responsive.css">
-  
-</head>
-<body>
-  <div class="provisional-banner"><strong>Aviso:</strong> versão inicial do site. Alguns conteúdos são provisórios e serão confirmados pela igreja.</div>
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="index.html" aria-label="Igreja Evangélica de Bairro D'Ajuda — início">
-        <img src="assets/logo/logo.jpg" alt="Logótipo provisório da IEBA">
-        <span class="brand-text"><span class="brand-name">Igreja Evangélica de Bairro D'Ajuda</span><span class="brand-sub">IEBA · Bissau</span></span>
-      </a>
-      
-  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">☰</button>
-  <nav aria-label="Navegação principal">
-    <ul class="main-nav" id="main-nav">
-      <a href="index.html">Início</a>
-      <a href="sobre.html">Sobre</a>
-      <a href="eventos.html">Eventos</a>
-      <a href="atividades.html">Atividades</a>
-      <li class="has-dropdown">
-        <a href="jovens.html">Ministérios</a> <span class="caret" aria-hidden="true">▾</span>
-        <ul class="dropdown-menu">
-          <li class="dd-title">Nossos ministérios</li>
-          <a href="jovens.html">Juventude</a><a href="mulheres.html">Mulheres</a><a href="meninas.html">Meninas</a><a href="sal-da-terra.html">Sal da Terra</a><a href="criancas.html">Crianças</a><a href="missoes.html">Missões</a><a href="ministerio-oracao.html">Oração</a>
-        </ul>
-      </li>
-      <li class="has-dropdown">
-        <a href="campos-missionarios.html">Campos Missionários</a> <span class="caret" aria-hidden="true">▾</span>
-        <ul class="dropdown-menu">
-          <li class="dd-title">Igrejas filiais e campos</li>
-          <a href="campo-tchangue.html">Tchangue</a><a href="campo-sahara.html">Sahara</a><a href="campo-rucuto.html">Rucuto</a><a href="campo-ilhas.html">Ilhas</a>
-        </ul>
-      </li>
-      <a href="projetos-sociais.html">Projetos</a>
-      <a href="midia.html">Mídia</a>
-      <a href="pedidos-oracao.html">Oração</a>
-      <a href="doacoes.html">Doações</a>
-      <a href="contactos.html">Contactos</a>
-    </ul>
-  </nav>
-    </div>
-  </header>
-  <main id="conteudo">
-    
-  <section class="page-hero "><div class="wrap"><span class="eyebrow">Painel administrativo</span><h1>Acesso ao painel</h1><p>Área privada da IEBA. O acesso real será ativado com Firebase Authentication, App Check e regras de segurança.</p></div></section>
-  <section class="section"><div class="wrap">
-    <div class="note"><strong>Área protegida:</strong> esta página é um espaço reservado. Não indexar, não expor dados e não publicar sem aprovação do administrador geral.</div>
-    <form class="form-card" data-demo-form novalidate style="max-width:440px;margin:0 auto">
-      <h3>Iniciar sessão</h3>
-      <div class="field"><label for="ad-email">Email</label><input id="ad-email" type="email" required></div>
-      <div class="field"><label for="ad-pass">Palavra-passe</label><input id="ad-pass" type="password" required></div>
-      <button class="btn btn-blue btn-block" type="submit">Entrar</button>
-      <div class="form-msg" role="status"></div>
-      <p class="form-note">MFA obrigatório para o administrador geral. A autenticação real depende da configuração do Firebase.</p>
+<html lang="pt"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Acesso ao painel | IEBA Admin</title><meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/logo/logo.jpg"><link rel="stylesheet" href="../css/admin.css"></head>
+<body class="login-body">
+  <section class="login-brandpanel">
+    <div class="login-logo"><img src="../assets/logo/logo.jpg" alt="IEBA"><div><strong>Igreja Evangélica de Bairro D'Ajuda</strong><small>IEBA · Bissau</small></div></div>
+    <div class="login-message"><h1>Bem-vindo ao painel administrativo.</h1><p>Gira os conteúdos do site, acompanhe as submissões dos ministérios e mantenha a informação da igreja atualizada.</p></div>
+    <div class="login-foot">© <span id="admin-year">2026</span> IEBA · Acesso restrito a utilizadores autorizados</div>
+  </section>
+  <section class="login-formpanel">
+    <form class="login-form" data-admin-form>
+      <h2>Iniciar sessão</h2><p>Introduza as suas credenciais para continuar.</p>
+      <div class="a-field"><label for="login-email">Email</label><input id="login-email" type="email" placeholder="nome@ieba.gw" required></div>
+      <div class="a-field"><label for="login-pass">Palavra-passe</label><input id="login-pass" type="password" placeholder="••••••••" required></div>
+      <button class="a-btn a-btn-primary" type="submit">Entrar no painel</button>
+      <div class="login-links"><a href="#" data-toast="Ligação de recuperação enviada">Esqueci a palavra-passe</a><a href="../index.html">← Voltar ao site</a></div>
+      <p class="login-note">A autenticação é protegida por verificação em dois passos e regras de acesso por perfil.</p>
     </form>
-  </div></section>
-  </main>
-  
-  <footer class="site-footer">
-    <div class="wrap">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img src="assets/logo/logo.jpg" alt="Logótipo da IEBA">
-            <div><strong>Igreja Evangélica de Bairro D'Ajuda</strong><small>IEBA</small></div>
-          </div>
-          <p style="font-size:0.9rem">Uma comunidade de fé, esperança e serviço em Bissau. Uma comunidade cristã acolhedora em Bissau, Guiné-Bissau.</p>
-          <p class="footer-note">Site em construção — conteúdos provisórios a confirmar pela igreja.</p>
-        </div>
-        <div>
-          <h4>Navegação</h4>
-          <ul>
-            <li><a href="sobre.html">Sobre a IEBA</a></li>
-            <li><a href="eventos.html">Eventos</a></li>
-            <li><a href="atividades.html">Atividades</a></li>
-            <li><a href="projetos-sociais.html">Projetos sociais</a></li>
-            <li><a href="midia.html">Mídia</a></li>
-            <li><a href="campos-missionarios.html">Campos missionários</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Ministérios</h4>
-          <ul>
-            <li><a href="jovens.html">Juventude</a></li><li><a href="mulheres.html">Mulheres</a></li><li><a href="meninas.html">Meninas</a></li><li><a href="sal-da-terra.html">Sal da Terra</a></li><li><a href="criancas.html">Crianças</a></li><li><a href="missoes.html">Missões</a></li><li><a href="ministerio-oracao.html">Oração</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Contacto</h4>
-          <ul class="footer-contact">
-            <li><span class="ico">📍</span><span>Bairro de Ajuda, atrás da Escola Attadamun, Bissau, Guiné-Bissau</span></li>
-            <li><span class="ico">☎</span><a href="tel:+245956074130">956 074 130</a></li>
-            <li><span class="ico">✉</span><span>A confirmar pela igreja</span></li>
-          </ul>
-          <h4 style="margin-top:1.25rem">Redes sociais</h4>
-          <ul>
-    <li><a href="https://www.facebook.com/p/Igreja-Evang%C3%A9lica-de-Bairro-DAjuda-100080607875689/" target="_blank" rel="noopener noreferrer">Facebook da IEBA ↗</a></li>
-    <li><a href="https://www.facebook.com/profile.php?id=100067777688226" target="_blank" rel="noopener noreferrer">Juventude Evangélica ↗</a></li>
-    <li><a href="https://www.facebook.com/stguinebissau" target="_blank" rel="noopener noreferrer">Sal da Terra GB ↗</a></li></ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© <span id="year">2026</span> Igreja Evangélica de Bairro D'Ajuda. Todos os direitos reservados.</span>
-        <span>Conteúdos públicos sujeitos a aprovação da administração da IEBA.</span>
-      </div>
-    </div>
-  </footer>
-  <button class="back-top" id="back-top" type="button" aria-label="Voltar ao topo">↑</button>
-  
-  <script src="js/app.js" defer></script>
-</body>
-</html>
+  </section>
+  <div class="admin-toast" id="admin-toast" role="status"></div>
+  <script src="../js/store.js" defer></script>
+  <script src="../js/dynamic-content.js" defer></script>
+  <script src="../js/admin.js" defer></script>
+</body></html>

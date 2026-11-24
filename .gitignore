@@ -11,6 +11,7 @@ tmp/
 # Configurações locais e segredos (nunca versionar)
 .env
 .env.*
+firebase/config.js
 firebase/configuration/*.local.*
 *.pem
 *.key

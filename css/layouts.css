@@ -1,0 +1,200 @@
+/* ============================================================
+   IEBA — layouts.css
+   Padrões de layout por tipo de página.
+
+   Objetivo: evitar que todas as páginas tenham a mesma estrutura
+   (breadcrumb + faixa + grelha de cartões). Cada padrão cria uma
+   experiência visual diferente, mantendo a identidade comum
+   (cores, tipografia, botões e navegação partilhados).
+
+   Carregado DEPOIS de components.css e ANTES de responsive.css.
+   As versões móveis estão no fim deste ficheiro.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. EDITORIAL — página Sobre
+   Coluna lateral fixa (índice/cita) + artigo com "drop cap".
+   ------------------------------------------------------------ */
+.ly-editorial { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 3.5rem; align-items: start; }
+.ly-rail { position: sticky; top: 100px; }
+.ly-rail-card { background: var(--primary); color: #fff; border-radius: var(--radius); padding: 1.75rem; }
+.ly-rail-card h3 { color: #fff; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.ly-rail-card ol { list-style: none; padding: 0; margin: 0; counter-reset: rail; }
+.ly-rail-card li { counter-increment: rail; padding: 0.6rem 0 0.6rem 2.2rem; position: relative; border-top: 1px solid rgba(255,255,255,0.15); font-size: 0.9rem; }
+.ly-rail-card li::before { content: counter(rail, decimal-leading-zero); position: absolute; left: 0; color: var(--gold-light); font-size: 0.75rem; font-weight: 800; }
+.ly-rail-card a { color: rgba(255,255,255,0.85); }
+.ly-article { font-size: 1.05rem; }
+.ly-article > p:first-of-type::first-letter { float: left; font-size: 4.2rem; line-height: 0.82; padding: 0.1em 0.12em 0 0; color: var(--gold); font-weight: 800; font-family: Georgia, serif; }
+.ly-article h2 { margin-top: 2.5rem; }
+.ly-article h2:first-child { margin-top: 0; }
+
+/* ------------------------------------------------------------
+   2. SPOTLIGHT + AGENDA — página Eventos
+   Destaque grande com bloco de data à esquerda e lista em linhas.
+   ------------------------------------------------------------ */
+.spotlight { display: grid; grid-template-columns: 190px minmax(0,1fr); overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow-lg); background: #fff; border: 1px solid var(--line); }
+.spotlight-date { background: var(--gold); color: #2a1d06; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1rem; text-align: center; }
+.spotlight-date strong { font-size: 3.2rem; line-height: 1; display: block; font-weight: 900; }
+.spotlight-date span { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.75rem; font-weight: 800; }
+.spotlight-body { padding: 2.25rem; }
+.agenda { list-style: none; padding: 0; margin: 0; }
+.agenda li { display: grid; grid-template-columns: 130px minmax(0,1fr) auto; gap: 1.25rem; align-items: center; padding: 1.1rem 0.5rem; border-bottom: 1px solid var(--line); }
+.agenda li:first-child { border-top: 1px solid var(--line); }
+.agenda .ag-day { font-weight: 800; color: var(--primary); font-size: 0.9rem; }
+.agenda .ag-name { font-weight: 700; }
+.agenda .ag-name small { display: block; color: var(--muted); font-weight: 400; font-size: 0.8rem; }
+.agenda .ag-time { color: var(--gold); font-weight: 800; white-space: nowrap; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   3. BENTO — página Atividades
+   Grelha assimétrica: primeiro cartão grande, depois regulares.
+   ------------------------------------------------------------ */
+.bento { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); grid-auto-rows: minmax(170px, auto); gap: 1rem; }
+.bento .card { min-height: 170px; }
+.bento .card.bento-feature { grid-column: span 2; grid-row: span 2; background: linear-gradient(150deg, var(--primary), var(--primary-light)); color: #fff; border: 0; }
+.bento .card.bento-feature h3, .bento .card.bento-feature strong { color: #fff; }
+.bento .card.bento-feature p { color: rgba(255,255,255,0.85); }
+.bento .card.bento-wide { grid-column: span 2; }
+
+/* ------------------------------------------------------------
+   4. VERSE BAND — Ministérios com versículo (Sal da Terra, Oração)
+   Substitui a faixa padrão por uma faixa tipográfica de destaque.
+   ------------------------------------------------------------ */
+.verse-band { position: relative; overflow: hidden; padding: 5.5rem 0; color: #fff; text-align: center; background: linear-gradient(125deg, #7a5410, var(--gold)); }
+.verse-band.teal { background: linear-gradient(125deg, #14543f, var(--teal)); }
+.verse-band.plum { background: linear-gradient(125deg, #5d2742, #8e4b6e); }
+.verse-band.blue { background: linear-gradient(125deg, #123f5e, #2a78a8); }
+.verse-band::after { content: "“"; position: absolute; left: 50%; top: -60px; transform: translateX(-50%); font-family: Georgia, serif; font-size: 22rem; color: rgba(255,255,255,0.09); line-height: 1; }
+.verse-band blockquote { position: relative; z-index: 2; font-family: Georgia, serif; font-style: italic; font-size: clamp(1.4rem, 3.4vw, 2.5rem); line-height: 1.35; max-width: 900px; margin: 0 auto 1rem; }
+.verse-band cite { position: relative; z-index: 2; font-style: normal; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.85rem; }
+.verse-band .eyebrow { color: rgba(255,255,255,0.85); }
+
+/* ------------------------------------------------------------
+   5. PLAYFUL — Crianças e Meninas
+   Cartões arredondados, etiquetas inclinadas e cores claras.
+   ------------------------------------------------------------ */
+.ly-playful { border-radius: 28px; }
+.ly-playful .card { border-radius: 24px; border: 0; box-shadow: 0 12px 28px rgba(139,90,40,0.12); }
+.ly-playful .card-body { padding: 1.75rem; }
+.ly-playful .thumb { height: 190px; border-radius: 24px 24px 0 0; }
+.sticker { display: inline-block; padding: 0.35rem 0.9rem; border-radius: 99px; background: var(--gold); color: #fff; font-weight: 800; font-size: 0.78rem; transform: rotate(-3deg); box-shadow: var(--shadow); }
+.sticker.teal { background: var(--teal); transform: rotate(2deg); }
+.sticker.plum { background: #8e4b6e; transform: rotate(-2deg); }
+.ly-playful .section-head h2 { color: #8e4b6e; }
+
+/* ------------------------------------------------------------
+   6. ROWS — Missões e campos missionários
+   Linhas horizontais com barra de cor e área de ação à direita.
+   ------------------------------------------------------------ */
+.field-row { display: grid; grid-template-columns: 6px 190px minmax(0,1fr) auto; gap: 1.5rem; align-items: center; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.35rem 1.5rem; margin-bottom: 1rem; box-shadow: var(--shadow); transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.field-row:hover { transform: translateX(4px); box-shadow: var(--shadow-lg); text-decoration: none; color: inherit; }
+.field-row .bar { align-self: stretch; border-radius: 99px; background: var(--accent, var(--primary)); }
+.field-row h3 { margin: 0 0 0.25rem; font-size: 1.2rem; }
+.field-row p { margin: 0; font-size: 0.88rem; color: var(--muted); }
+.field-row .row-action { font-weight: 800; color: var(--primary); white-space: nowrap; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   7. PROGRESS — Projetos sociais
+   Cartões com barra de estado e faixa de beneficiários.
+   ------------------------------------------------------------ */
+.project-card { display: flex; flex-direction: column; height: 100%; }
+.project-card .project-top { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; }
+.progress-line { height: 7px; background: var(--surface-soft); border-radius: 99px; overflow: hidden; margin: 1rem 0 0.5rem; }
+.progress-line span { display: block; height: 100%; background: var(--gold); border-radius: 99px; }
+.project-meta { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.82rem; color: var(--muted); }
+.project-meta strong { color: var(--primary); }
+
+/* ------------------------------------------------------------
+   8. MOSAIC — Mídia
+   Grelha de tamanhos variados para parecer um álbum real.
+   ------------------------------------------------------------ */
+.mosaic { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); grid-auto-rows: 165px; gap: 0.75rem; }
+.mosaic .gallery-item { height: 100%; border-radius: var(--radius-sm); }
+.mosaic .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.mosaic .gallery-item:nth-child(5) { grid-column: span 2; }
+.mosaic .gallery-item:nth-child(6) { grid-row: span 2; }
+
+/* ------------------------------------------------------------
+   9. SPLIT PANEL — Formulários e doações
+   Painel dividido: lado informativo colorido + lado funcional.
+   ------------------------------------------------------------ */
+.split-panel { display: grid; grid-template-columns: 0.85fr 1.15fr; overflow: hidden; border-radius: var(--radius); box-shadow: var(--shadow-lg); border: 1px solid var(--line); }
+.split-panel .panel-side { background: linear-gradient(150deg, var(--primary-dark), var(--primary)); color: #fff; padding: 2.5rem; }
+.split-panel .panel-side h2, .split-panel .panel-side h3, .split-panel .panel-side strong { color: #fff; }
+.split-panel .panel-side p { color: rgba(255,255,255,0.85); }
+.split-panel .panel-side .list-check li::before { color: var(--gold-light); }
+.split-panel .panel-main { background: #fff; padding: 2.5rem; }
+.split-panel.gold .panel-side { background: linear-gradient(150deg, #7a5410, var(--gold)); }
+.split-panel.gold .panel-side h2, .split-panel.gold .panel-side h3, .split-panel.gold .panel-side strong { color: #2a1d06; }
+.split-panel.gold .panel-side p { color: rgba(42,29,6,0.85); }
+.split-panel.gold .list-check li::before { color: #2a1d06; }
+
+/* ------------------------------------------------------------
+   10. HERO DIAGONAL — variante de faixa com corte oblíquo
+   ------------------------------------------------------------ */
+.page-hero.diagonal { position: relative; padding-bottom: 5rem; }
+.page-hero.diagonal::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 45px; background: var(--surface); clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+.page-hero .hero-icon { display: inline-grid; place-items: center; width: 66px; height: 66px; border-radius: 18px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.3); font-size: 1.9rem; margin-bottom: 1.25rem; }
+
+/* ------------------------------------------------------------
+   11. PROGRAMAS E LITURGIA
+   .program-grid  -> trimestres do programa geral
+   .dept-accordion -> departamentos (details/summary nativo)
+   .liturgy-steps  -> ordem dos cultos com numeração
+   .doc-toolbar    -> botão de impressão e ligação para PDF
+   ------------------------------------------------------------ */
+.program-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+.program-card { position: relative; overflow: hidden; padding-top: 2.25rem; }
+.program-card .period { position: absolute; top: 0; left: 0; right: 0; background: var(--primary); color: #fff; padding: 0.55rem 1.25rem; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+.program-card:nth-child(2) .period { background: var(--teal); }
+.program-card:nth-child(3) .period { background: var(--gold); color: #2a1d06; }
+.program-card:nth-child(4) .period { background: #8e4b6e; }
+.program-card .theme { font-size: 1.15rem; color: var(--primary-dark); margin-bottom: 0.5rem; }
+
+.dept-accordion details { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 0.85rem; box-shadow: var(--shadow); overflow: hidden; }
+.dept-accordion summary { cursor: pointer; padding: 1.15rem 1.5rem; font-weight: 800; color: var(--primary-dark); list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.dept-accordion summary::-webkit-details-marker { display: none; }
+.dept-accordion summary::after { content: "+"; font-size: 1.4rem; color: var(--gold); line-height: 1; }
+.dept-accordion details[open] summary::after { content: "−"; }
+.dept-accordion details[open] summary { border-bottom: 1px solid var(--line); }
+.dept-accordion .dept-body { padding: 1.5rem; }
+.dept-accordion .dept-body h4 { color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.78rem; margin-top: 1.25rem; }
+.dept-accordion .dept-body h4:first-child { margin-top: 0; }
+
+.liturgy-steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+.liturgy-steps li { counter-increment: step; position: relative; padding: 0 0 1.75rem 4rem; }
+.liturgy-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: 42px; height: 42px; border-radius: 50%; background: var(--primary); color: #fff; display: grid; place-items: center; font-weight: 900; }
+.liturgy-steps li::after { content: ""; position: absolute; left: 20px; top: 48px; bottom: 0; width: 2px; background: var(--line); }
+.liturgy-steps li:last-child::after { display: none; }
+.liturgy-steps h3 { margin: 0.35rem 0 0.4rem; font-size: 1.1rem; }
+.liturgy-steps p { color: var(--muted); margin: 0; font-size: 0.95rem; }
+
+.doc-toolbar { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; padding: 1rem 1.25rem; background: var(--surface-alt); border: 1px solid var(--line); border-radius: var(--radius); margin-bottom: 2rem; }
+.doc-toolbar .doc-label { font-weight: 700; color: var(--primary); margin-right: auto; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   12. RESPONSIVO DOS PADRÕES
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .ly-editorial { grid-template-columns: 1fr; gap: 2rem; }
+  .ly-rail { position: static; }
+  .bento { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .bento .card.bento-feature { grid-column: span 2; grid-row: auto; }
+  .bento .card.bento-wide { grid-column: span 2; }
+  .mosaic { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .mosaic .gallery-item:nth-child(1), .mosaic .gallery-item:nth-child(5) { grid-column: span 2; grid-row: auto; }
+  .mosaic .gallery-item:nth-child(6) { grid-row: auto; }
+  .split-panel { grid-template-columns: 1fr; }
+  .field-row { grid-template-columns: 6px minmax(0,1fr); gap: 1rem; }
+  .field-row .row-action { grid-column: 2; }
+  .spotlight { grid-template-columns: 1fr; }
+  .spotlight-date { flex-direction: row; gap: 1rem; padding: 1.25rem; }
+  .agenda li { grid-template-columns: 110px minmax(0,1fr); }
+  .agenda .ag-time { grid-column: 2; }
+}
+@media (max-width: 640px) {
+  .bento, .mosaic { grid-template-columns: 1fr; }
+  .bento .card.bento-feature, .bento .card.bento-wide, .mosaic .gallery-item:nth-child(1), .mosaic .gallery-item:nth-child(5) { grid-column: auto; }
+  .agenda li { grid-template-columns: 1fr; gap: 0.35rem; }
+  .spotlight-date strong { font-size: 2.4rem; }
+}

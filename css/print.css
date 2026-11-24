@@ -1,0 +1,74 @@
+/* ============================================================
+   IEBA — print.css
+   Folha de estilo aplicada apenas ao imprimir / Guardar como PDF.
+   Carregada com media="print" nos HTML gerados.
+
+   Objetivo: transformar as páginas de Programa e Liturgia em
+   documentos limpos, sem menus nem botões, prontos para PDF.
+   ============================================================ */
+
+@page {
+  size: A4;
+  margin: 16mm 14mm;
+}
+
+@media print {
+  /* Elementos de interface que não fazem parte do documento */
+  .provisional-banner,
+  .site-header,
+  .site-footer,
+  .back-top,
+  .lightbox,
+  .doc-toolbar,
+  .filter-bar,
+  .carousel-btn,
+  .btn,
+  .sticker { display: none !important; }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11pt;
+    line-height: 1.45;
+  }
+
+  .wrap, .container { max-width: none; padding: 0; margin: 0; }
+  main { padding: 0; }
+
+  h1, h2, h3, h4 { color: #000 !important; break-after: avoid; }
+  h1 { font-size: 22pt; margin-bottom: 4mm; }
+  h2 { font-size: 15pt; margin-top: 8mm; }
+  h3 { font-size: 12pt; }
+  p { orphans: 3; widows: 3; }
+
+  /* Faixas de destaque: sem fundo, apenas texto */
+  .hero, .page-hero, .verse-band, .section-primary {
+    background: none !important;
+    color: #000 !important;
+    padding: 0 0 6mm !important;
+    border-bottom: 2px solid #000;
+  }
+  .hero h1, .page-hero h1, .verse-band blockquote, .verse-band cite,
+  .hero p, .page-hero p, .section-primary h2, .section-primary p { color: #000 !important; }
+  .verse-band blockquote { font-size: 14pt; }
+  .hero-card, .hero-icon, .hero::before, .hero::after, .verse-band::after { display: none !important; }
+
+  /* Evitar que cartões e passos da liturgia se partam pelo meio */
+  .card, .program-card, .liturgy-steps li, .agenda li, .field-row,
+  .split-panel, .dept-accordion details {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #bbb !important;
+  }
+  .split-panel { display: block; }
+  .split-panel .panel-side, .split-panel .panel-main { padding: 4mm 0; background: none !important; color: #000 !important; }
+
+  .section, .section-alt, .section-soft { padding: 4mm 0 !important; background: none !important; }
+
+  /* Accordions: mostrar todo o conteúdo no PDF */
+  .dept-accordion details > .dept-body { display: block !important; }
+  .dept-accordion summary::after { display: none; }
+
+  a { color: #000 !important; text-decoration: none; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #444; }
+}

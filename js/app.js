@@ -40,6 +40,49 @@
     if (next) next.addEventListener('click', function () { track.scrollBy({ left: step(), behavior: 'smooth' }); });
   });
 
+  document.querySelectorAll('[data-carousel-auto]').forEach(function (root) {
+    var track = root.querySelector('.carousel-track');
+    if (!track) return;
+    var originals = Array.prototype.slice.call(track.querySelectorAll('[data-slide]'));
+    if (!originals.length) return;
+    originals.forEach(function (el) {
+      var clone = el.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.tabIndex = -1;
+      track.appendChild(clone);
+    });
+    var count = originals.length;
+    var index = 0;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var timer = null;
+    function stepWidth() {
+      var gap = parseFloat(window.getComputedStyle(track).gap) || 20;
+      return originals[0].getBoundingClientRect().width + gap;
+    }
+    function apply(animate) {
+      track.style.transition = animate ? 'transform 0.7s ease' : 'none';
+      track.style.transform = 'translateX(-' + (index * stepWidth()) + 'px)';
+    }
+    function goNext() { index += 1; apply(true); }
+    function goPrev() { index = index <= 0 ? count - 1 : index - 1; apply(true); }
+    track.addEventListener('transitionend', function () {
+      if (index >= count) { index = 0; apply(false); void track.offsetWidth; }
+      else if (index < 0) { index = count - 1; apply(false); void track.offsetWidth; }
+    });
+    var prev = root.querySelector('.carousel-prev');
+    var next = root.querySelector('.carousel-next');
+    if (prev) prev.addEventListener('click', goPrev);
+    if (next) next.addEventListener('click', goNext);
+    function start() { if (timer || reduce) return; timer = window.setInterval(goNext, 3200); }
+    function stop() { if (timer) { window.clearInterval(timer); timer = null; } }
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) { stop(); } else { start(); } });
+    start();
+  });
+
   var lightbox = document.getElementById('lightbox');
   var lbTitle = document.getElementById('lightbox-title');
   var lbVisual = document.getElementById('lightbox-visual');
@@ -92,6 +135,10 @@
       }
       form.reset();
     });
+  });
+
+  document.querySelectorAll('[data-print]').forEach(function (btn) {
+    btn.addEventListener('click', function () { window.print(); });
   });
 
   var backTop = document.getElementById('back-top');
