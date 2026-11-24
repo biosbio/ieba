@@ -1,0 +1,85 @@
+/* ============================================================
+   IEBA — responsive.css
+   ADAPTAR A ECRÃS MENORES — carregado por último para poder
+   sobrescrever style.css e components.css.
+
+   Pontos de ruptura:
+   - 1024px: tablets horizontais / ecrãs médios
+   -  860px: tablet vertical / telemóvel (menu hambúrguer)
+   -  640px: telemóveis pequenos
+   - prefers-reduced-motion: acessibilidade (reduz animações)
+
+   MANUTENÇÃO: ao alterar número de colunas em components.css,
+   ajuste também as regras correspondentes aqui.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. ATÉ 1024px — ecrãs médios
+   Hero passa a uma coluna; grelhas de 4 colunas passam a 2.
+   ------------------------------------------------------------ */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 2rem; padding: 3.5rem 0 4rem; }
+  .hero-card { max-width: 560px; }
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .carousel-track > * { flex-basis: calc(50% - 0.7rem); }
+}
+
+/* ------------------------------------------------------------
+   2. ATÉ 860px — menu móvel
+   .nav-toggle aparece; .main-nav vira painel vertical.
+   Os submenus (.dropdown-menu) deixam de ser absolute e são
+   abertos por js/app.js com a classe .open.
+   ------------------------------------------------------------ */
+@media (max-width: 860px) {
+  :root { --header-h: 64px; }
+  .nav-toggle { display: inline-flex; }
+  .main-nav {
+    display: none; position: absolute; top: var(--header-h); left: 0; right: 0;
+    background: #fff; border-bottom: 1px solid var(--line); box-shadow: var(--shadow-lg);
+    flex-direction: column; align-items: stretch; padding: 0.75rem 1.25rem 1.25rem; gap: 0.15rem;
+    max-height: calc(100vh - var(--header-h)); overflow-y: auto;
+  }
+  .main-nav.open { display: flex; }
+  .main-nav a { padding: 0.6rem 0.75rem; }
+  .dropdown-menu { position: static; display: none; box-shadow: none; border: 0; border-left: 2px solid var(--line); border-radius: 0; margin: 0 0 0.5rem 0.75rem; min-width: 0; padding: 0.25rem 0; }
+  .has-dropdown > .dropdown-menu.open { display: block; }
+  .brand img { width: 42px; height: 42px; }
+  .brand-name { font-size: 0.92rem; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .carousel-btn { display: none; }
+}
+
+/* ------------------------------------------------------------
+   3. ATÉ 640px — telemóveis
+   Tudo a uma coluna; botões a largura total; tabelas compactas.
+   ------------------------------------------------------------ */
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+  .section { padding: 3rem 0; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .hero-inner { padding: 2.75rem 0 3.25rem; }
+  .hero-card { padding: 1.1rem; }
+  .hero-actions .btn { width: 100%; }
+  .page-hero { padding: 2.5rem 0; }
+  .footer-grid { grid-template-columns: 1fr; gap: 1.75rem; }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; }
+  .carousel-track > * { flex-basis: 85%; }
+  .cta-band { padding: 1.75rem; }
+  .cta-band .btn { width: 100%; }
+  .form-card { padding: 1.4rem; }
+  .schedule-table { font-size: 0.84rem; }
+  .schedule-table th, .schedule-table td { padding: 0.65rem 0.55rem; }
+  .fact strong { font-size: 1.35rem; }
+  .brand-sub { font-size: 0.6rem; }
+}
+
+/* ------------------------------------------------------------
+   4. ACESSIBILIDADE — movimento reduzido
+   Respeita a preferência do sistema operativo.
+   ------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}

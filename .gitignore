@@ -1,0 +1,27 @@
+# Dependências / ferramentas locais
+node_modules/
+npm-debug.log*
+
+# Geradores e temporários
+temp/
+tmp/
+*.tmp
+*.log
+
+# Configurações locais e segredos (nunca versionar)
+.env
+.env.*
+firebase/configuration/*.local.*
+*.pem
+*.key
+service-account*.json
+
+# Sistema operativo / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Saídas de testes
+coverage/
+tests/output/

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pedidos de Oração | IEBA</title>
+  <meta name="description" content="Envie um pedido de oração confidencial à IEBA.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pedidos de Oração | IEBA">
+  <meta property="og:description" content="Envie um pedido de oração confidencial à IEBA.">
+  <meta property="og:image" content="assets/logo/logo.jpg">
+  <link rel="icon" href="assets/logo/logo.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+</head>
+<body>
+  <div class="provisional-banner"><strong>Aviso:</strong> versão inicial do site. Alguns conteúdos são provisórios e serão confirmados pela igreja.</div>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="index.html" aria-label="Igreja Evangélica de Bairro D'Ajuda — início">
+        <img src="assets/logo/logo.jpg" alt="Logótipo provisório da IEBA">
+        <span class="brand-text"><span class="brand-name">Igreja Evangélica de Bairro D'Ajuda</span><span class="brand-sub">IEBA · Bissau</span></span>
+      </a>
+      
+  <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="main-nav">☰</button>
+  <nav aria-label="Navegação principal">
+    <ul class="main-nav" id="main-nav">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="atividades.html">Atividades</a>
+      <li class="has-dropdown">
+        <a href="jovens.html">Ministérios</a> <span class="caret" aria-hidden="true">▾</span>
+        <ul class="dropdown-menu">
+          <li class="dd-title">Nossos ministérios</li>
+          <a href="jovens.html">Juventude</a><a href="mulheres.html">Mulheres</a><a href="meninas.html">Meninas</a><a href="sal-da-terra.html">Sal da Terra</a><a href="criancas.html">Crianças</a><a href="missoes.html">Missões</a><a href="ministerio-oracao.html">Oração</a>
+        </ul>
+      </li>
+      <li class="has-dropdown">
+        <a href="campos-missionarios.html">Campos Missionários</a> <span class="caret" aria-hidden="true">▾</span>
+        <ul class="dropdown-menu">
+          <li class="dd-title">Igrejas filiais e campos</li>
+          <a href="campo-tchangue.html">Tchangue</a><a href="campo-sahara.html">Sahara</a><a href="campo-rucuto.html">Rucuto</a><a href="campo-ilhas.html">Ilhas</a>
+        </ul>
+      </li>
+      <a href="projetos-sociais.html">Projetos</a>
+      <a href="midia.html">Mídia</a>
+      <a href="pedidos-oracao.html" class="active" aria-current="page">Oração</a>
+      <a href="doacoes.html">Doações</a>
+      <a href="contactos.html">Contactos</a>
+    </ul>
+  </nav>
+    </div>
+  </header>
+  <main id="conteudo">
+    
+  <div class="wrap"><nav class="breadcrumb" aria-label="Caminho"><a href="index.html">Início</a><span class="sep">/</span><span aria-current="page">Pedidos de oração</span></nav></div>
+  <section class="page-hero variant-teal"><div class="wrap"><span class="eyebrow">Ministério de Oração</span><h1>Pedidos de Oração</h1><p>Envie o seu pedido com confidencialidade. Será recebido pelo Ministério de Oração.</p></div></section>
+  <section class="section"><div class="wrap">
+    <div class="grid grid-2" style="align-items:start">
+      <div>
+        <p class="lead">"Orai uns pelos outros, para que sejais curados." (Tiago 5:16)</p>
+        <p>O Ministério de Oração da IEBA recebe e acompanha cada pedido. O seu pedido não será publicado no site e só pode ser consultado pelo administrador geral e pelo Ministério de Oração.</p>
+        <div class="note"><strong>Confidencialidade:</strong> se solicitar tratamento confidencial, o pedido não será partilhado com outros ministérios. Nunca expomos o conteúdo de pedidos em registos técnicos.</div>
+        <h3>Como funciona</h3>
+        <ol><li>Recebido — o pedido entra na área privada.</li><li>Em acompanhamento — o Ministério de Oração intercede.</li><li>Concluído — após o acompanhamento.</li><li>Arquivado — conforme a política de retenção.</li></ol>
+      </div>
+      <form class="form-card" data-demo-form novalidate>
+        <h3>Enviar pedido</h3>
+        <div class="field"><label for="pr-name">Nome <span class="text-muted">(opcional)</span></label><input id="pr-name" name="nome" type="text" autocomplete="name"></div>
+        <div class="field"><label for="pr-contact">Email ou telefone <span class="text-muted">(opcional)</span></label><input id="pr-contact" name="contacto" type="text"><span class="hint">Apenas se desejar ser contactado.</span></div>
+        <div class="field"><label for="pr-text">Pedido de oração <span class="req">*</span></label><textarea id="pr-text" name="pedido" required></textarea></div>
+        <div class="field"><label class="checkbox"><input type="checkbox" name="confidencial" checked> <span>Tratar este pedido de forma confidencial</span></label></div>
+        <div class="field"><label class="checkbox"><input type="checkbox" name="consentimento" required> <span>Autorizo o tratamento dos meus dados para este fim <span class="req">*</span></span></label></div>
+        <button class="btn btn-blue btn-block" type="submit">Enviar pedido</button>
+        <div class="form-msg" role="status"></div>
+        <p class="form-note">O envio real será ativado com a configuração do Firebase e das regras de segurança. Não envie dados bancários ou informações sensíveis por este formulário.</p>
+      </form>
+    </div>
+  </div></section>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img src="assets/logo/logo.jpg" alt="Logótipo da IEBA">
+            <div><strong>Igreja Evangélica de Bairro D'Ajuda</strong><small>IEBA</small></div>
+          </div>
+          <p style="font-size:0.9rem">Uma comunidade de fé, esperança e serviço em Bissau. Uma comunidade cristã acolhedora em Bissau, Guiné-Bissau.</p>
+          <p class="footer-note">Site em construção — conteúdos provisórios a confirmar pela igreja.</p>
+        </div>
+        <div>
+          <h4>Navegação</h4>
+          <ul>
+            <li><a href="sobre.html">Sobre a IEBA</a></li>
+            <li><a href="eventos.html">Eventos</a></li>
+            <li><a href="atividades.html">Atividades</a></li>
+            <li><a href="projetos-sociais.html">Projetos sociais</a></li>
+            <li><a href="midia.html">Mídia</a></li>
+            <li><a href="campos-missionarios.html">Campos missionários</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Ministérios</h4>
+          <ul>
+            <li><a href="jovens.html">Juventude</a></li><li><a href="mulheres.html">Mulheres</a></li><li><a href="meninas.html">Meninas</a></li><li><a href="sal-da-terra.html">Sal da Terra</a></li><li><a href="criancas.html">Crianças</a></li><li><a href="missoes.html">Missões</a></li><li><a href="ministerio-oracao.html">Oração</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contacto</h4>
+          <ul class="footer-contact">
+            <li><span class="ico">📍</span><span>Bairro de Ajuda, atrás da Escola Attadamun, Bissau, Guiné-Bissau</span></li>
+            <li><span class="ico">☎</span><a href="tel:+245956074130">956 074 130</a></li>
+            <li><span class="ico">✉</span><span>A confirmar pela igreja</span></li>
+          </ul>
+          <h4 style="margin-top:1.25rem">Redes sociais</h4>
+          <ul>
+    <li><a href="https://www.facebook.com/p/Igreja-Evang%C3%A9lica-de-Bairro-DAjuda-100080607875689/" target="_blank" rel="noopener noreferrer">Facebook da IEBA ↗</a></li>
+    <li><a href="https://www.facebook.com/profile.php?id=100067777688226" target="_blank" rel="noopener noreferrer">Juventude Evangélica ↗</a></li>
+    <li><a href="https://www.facebook.com/stguinebissau" target="_blank" rel="noopener noreferrer">Sal da Terra GB ↗</a></li></ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© <span id="year">2026</span> Igreja Evangélica de Bairro D'Ajuda. Todos os direitos reservados.</span>
+        <span>Conteúdos públicos sujeitos a aprovação da administração da IEBA.</span>
+      </div>
+    </div>
+  </footer>
+  <button class="back-top" id="back-top" type="button" aria-label="Voltar ao topo">↑</button>
+  
+  <script src="js/app.js" defer></script>
+</body>
+</html>
